@@ -8,6 +8,7 @@ class Profession(md.Model):
 
     class Meta:
         ordering=['profession']
+        verbose_name = 'profession'
 
     def __str__(self):
         return f'{self.profession}'
@@ -20,6 +21,8 @@ class Profile(md.Model):
     email=md.EmailField(max_length=255)
     created_on = md.DateField(auto_now_add = True)
 
+    class Meta:
+        verbose_name='profile'
     @receiver(post_save, sender = User)
     def create_profile(sender,instance,created ,**kwargs):
         if created:
@@ -29,11 +32,15 @@ class Profile(md.Model):
     def save_profile(sender, instance,**kwargs):
         instance.profile.save()
 
+
     def __str__(self):
         return f'{self.user.username}'
 
 class Tag(md.Model):
     tags= md.CharField(max_length=100)
+
+    class Meta:
+        verbose_name='tags'
 
     def __str__(self):
         return f'{self.tags}'
@@ -45,6 +52,9 @@ class Post(md.Model):
     tags = md.ManyToManyField(Tag)
     main_image =md.ImageField(upload_to='main_image/')
     posted_on=md.DateField(auto_now_add = True)
+
+    class Meta:
+        verbose_name='posts'
 
     def __str__(self):
         return f'{self.title}'
@@ -83,4 +93,3 @@ class Like(md.Model):
 
     class Meta:
         verbose_name='likes'
-    
