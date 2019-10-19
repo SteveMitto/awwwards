@@ -76,3 +76,11 @@ class Follow(md.Model):
 
     def save_follow(self):
         self.save()
+
+class Like(md.Model):
+    user = md.ForeignKey(User,on_delete=md.PROTECT , related_name ='liked_posts')
+    post = md.ForeignKey(Post,on_delete=md.CASCADE, related_name='likes')
+
+    class Meta:
+        verbose_name='likes'
+    
