@@ -33,7 +33,6 @@ class Profile(md.Model):
     bio = md.TextField(max_length = 300)
     display_name = md.CharField(max_length = 100)
     profession = md.ManyToManyField(Profession)
-    email=md.EmailField(max_length=255)
     created_on = md.DateField(auto_now_add = True)
 
     class Meta:
