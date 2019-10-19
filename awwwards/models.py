@@ -18,7 +18,7 @@ class Profession(md.Model):
 
 class Country(md.Model):
     name = md.CharField(max_length=100)
-
+    flags = md.URLField(null=True)
     class Meta:
         verbose_name='countries'
         ordering=['name']
