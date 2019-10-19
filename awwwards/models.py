@@ -48,3 +48,21 @@ class Post(md.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+class Rating(md.Model):
+    post=md.ForeignKey(Post,on_delete=md.PROTECT,related_name="ratings")
+    user=md.ForeignKey(User,on_delete=md.PROTECT,related_name="my_ratings")
+    design =md.IntegerField()
+    usability =md.IntegerField()
+    content =md.IntegerField()
+    creativity = md.IntegerField(blank = True)
+    avarage = md.IntegerField()
+
+    class Meta:
+        ordering=['avarage']
+
+    def __str__(self):
+        return f"{self.user}s rating  "
+
+    def save_rates(self):
+        self.save()
