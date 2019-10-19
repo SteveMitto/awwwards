@@ -73,6 +73,19 @@ class Post(md.Model):
     def __str__(self):
         return f'{self.title}'
 
+class Contributor(md.Model):
+    post=md.ForeignKey(Post,on_delete=md.PROTECT,related_name="contributors")
+    contributors=md.ManyToManyField(User)
+
+    class Meta:
+        ordering=['post']
+
+    def __str__(self):
+        return f"{self.post}"
+
+    def save_contribs(self):
+        self.save()
+
 class Rating(md.Model):
     post=md.ForeignKey(Post,on_delete=md.PROTECT,related_name="ratings")
     user=md.ForeignKey(User,on_delete=md.PROTECT,related_name="my_ratings")
