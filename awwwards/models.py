@@ -31,3 +31,20 @@ class Profile(md.Model):
 
     def __str__(self):
         return f'{self.user.username}'
+
+class Tag(md.Model):
+    tags= md.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.tags}'
+
+class Post(md.Model):
+    user = md.ForeignKey(User,on_delete=md.PROTECT,related_name='posts')
+    title= md.TextField(max_length=300)
+    description = md.TextField(max_length=500)
+    tags = md.ManyToManyField(Tag)
+    main_image =md.ImageField(upload_to='main_image/')
+    posted_on=md.DateField(auto_now_add = True)
+
+    def __str__(self):
+        return f'{self.title}'
