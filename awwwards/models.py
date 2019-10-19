@@ -23,6 +23,9 @@ class Country(md.Model):
         verbose_name='countries'
         ordering=['name']
 
+    def save_country(self):
+        self.save()
+
 class Profile(md.Model):
     user = md.OneToOneField(User,on_delete=md.PROTECT)
     profile_pic= md.ImageField(upload_to='profile_pics/')
