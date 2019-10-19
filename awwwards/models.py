@@ -13,6 +13,9 @@ class Profession(md.Model):
     def __str__(self):
         return f'{self.profession}'
 
+    def save_professions(self):
+        self.save()
+
 class Country(md.Model):
     name = md.CharField(max_length=100)
 
