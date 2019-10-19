@@ -12,9 +12,18 @@ class Profession(md.Model):
 
     def __str__(self):
         return f'{self.profession}'
+
+class Country(md.Model):
+    name = md.CharField(max_length=100)
+
+    class Meta:
+        verbose_name='countries'
+        ordering=['name']
+
 class Profile(md.Model):
     user = md.OneToOneField(User,on_delete=md.PROTECT)
     profile_pic= md.ImageField(upload_to='profile_pics/')
+    country=md.ForeignKey(Country,on_delete=md.CASCADE , related_name = 'posts')
     bio = md.TextField(max_length = 300)
     display_name = md.CharField(max_length = 100)
     profession = md.ManyToManyField(Profession)
