@@ -28,12 +28,12 @@ class Country(md.Model):
 
 class Profile(md.Model):
     user = md.OneToOneField(User,on_delete=md.PROTECT)
-    profile_pic= md.ImageField(upload_to='profile_pics/')
-    country=md.ForeignKey(Country,on_delete=md.CASCADE , related_name = 'posts')
-    bio = md.TextField(max_length = 300)
-    display_name = md.CharField(max_length = 100)
-    profession = md.ManyToManyField(Profession)
-    created_on = md.DateField(auto_now_add = True)
+    profile_pic= md.ImageField(upload_to='profile_pics/',default="profile_pics/default.png")
+    country=md.ForeignKey(Country,on_delete=md.CASCADE , related_name = 'profile',null=True)
+    bio = md.TextField(max_length = 300, blank=True)
+    display_name = md.CharField(max_length = 100,blank=True)
+    profession = md.ManyToManyField(Profession,blank=True)
+    created_on = md.DateField(auto_now_add = True,blank=True)
 
     class Meta:
         verbose_name='profile'
