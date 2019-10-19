@@ -66,3 +66,13 @@ class Rating(md.Model):
 
     def save_rates(self):
         self.save()
+
+class Follow(md.Model):
+    follower=md.ForeignKey(User,on_delete=md.CASCADE,related_name='following')
+    followed =md.ForeignKey(User,on_delete=md.CASCADE,related_name='followers')
+
+    class Meta:
+        ordering=['followed']
+
+    def save_follow(self):
+        self.save()
