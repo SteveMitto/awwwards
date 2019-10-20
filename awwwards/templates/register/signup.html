@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load bootstrap4%}
+
+{% block content %}
+<style media="screen">
+  li{
+    display:none;
+  }
+</style>
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-md-6">
+
+    </div>
+    <div class="col-md-6">
+      <form class="" action="{% url 'signup'%}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary btn-sm btn-block ">Submit</button>
+      </form>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'awwwards.apps.AwwwardsConfig',
-    'awwards_apis.apps.AwwardsApisConfig'
+    'awwards_apis.apps.AwwardsApisConfig',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+SIGNUP_REDIRECT='/accounts/login'
