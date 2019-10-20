@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load bootstrap4%}
+
+{% block content %}
+<style media="screen">
+  li{
+    display:none;
+  }
+</style>
+{% if user.is_authenticated %}
+<script type="text/javascript">
+  window.location.replace('/')
+</script>
+{% else %}
+
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-md-6">
+
+    </div>
+    <div class="col-md-6">
+      <form class="" action="{% url 'login'%}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary btn-sm btn-block ">Submit</button>
+      </form>
+      <small> Dont have an account  <br> <a href="{% url 'signup'%}">Signup</a></small>
+    </div>
+  </div>
+
+</div>
+{% endif %}
+
+{% endblock %}
