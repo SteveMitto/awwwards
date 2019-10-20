@@ -6,7 +6,8 @@ import requests
 # Create your views here.
 
 def index(request):
-    return render(request,'index.html')
+    form = UserCreationForm()
+    return render(request,'index.html',{'form':form})
 
 def signup(request):
     if request.method == "POST":
