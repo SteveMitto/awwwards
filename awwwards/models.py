@@ -23,6 +23,8 @@ class Country(md.Model):
         verbose_name='countries'
         ordering=['name']
 
+    def __str__(self):
+        return self.name
     def save_country(self):
         self.save()
 
@@ -114,9 +116,15 @@ class Follow(md.Model):
     def save_follow(self):
         self.save()
 
+    def __str__(self):
+        return f'{self.follower} follows {self.followed}'
+
 class Like(md.Model):
     user = md.ForeignKey(User,on_delete=md.PROTECT , related_name ='liked_posts')
     post = md.ForeignKey(Post,on_delete=md.CASCADE, related_name='likes')
 
     class Meta:
         verbose_name='likes'
+
+    def __str__(self):
+        return f'{self.user} likes {self.post}'
