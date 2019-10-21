@@ -75,6 +75,24 @@ class Post(md.Model):
     def __str__(self):
         return f'{self.title}'
 
+def get_image_filename(instance, filename):
+    title = instance.post.title
+    slug = slugify(title)
+    return "post_images/%s-%s" % (slug, filename)
+
+class Image(md.Model):
+    post=md.ForeignKey(Post,on_delete=md.PROTECT,related_name="images")
+    image= md.ImageField(upload_to=get_image_filename,verbose_name="Image")
+
+    class Meta:
+        verbose_name='posts'
+
+    def __str__(self):
+        return f'{self.post} {len(image)} images'
+
+    def save_post_image(self):
+        self.save()
+
 class Contributor(md.Model):
     post=md.ForeignKey(Post,on_delete=md.PROTECT,related_name="contributors")
     contributors=md.ManyToManyField(User)
