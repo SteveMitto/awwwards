@@ -21,9 +21,9 @@ $(document).ready(function() {
 
   })
   $(".items").mouseleave(function() {
-    $(this).slideUp()
+    $(this).fadeOut()
   })
   $(".profile").mouseleave(function() {
-    $(".items").slideUp()
+    $(".items").fadeOut()
   })
 })
