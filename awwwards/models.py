@@ -2,6 +2,7 @@ from django.db import models as md
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 class Profession(md.Model):
     profession = md.CharField(max_length=100)
@@ -85,10 +86,10 @@ class Image(md.Model):
     image= md.ImageField(upload_to=get_image_filename,verbose_name="Image")
 
     class Meta:
-        verbose_name='posts'
+        verbose_name='image'
 
     def __str__(self):
-        return f'{self.post} {len(image)} images'
+        return f'{self.post} {len(self.image)} images'
 
     def save_post_image(self):
         self.save()
@@ -146,3 +147,20 @@ class Like(md.Model):
 
     def __str__(self):
         return f'{self.user} likes {self.post}'
+
+# class Sotd(md.Model):
+#     post = md.ForeignKey(Post,on_delete=md.CASCADE, related_name='sotd')
+#     date = md.DateTimeField(auto_now_add=True)
+#
+#     @receiver(post_save, sender=Like)
+#     def add_sotd(sender,created,instance,**kwargs):
+#         if created:
+#             posts = Post.objects.filter(posted_on__date = instance.posted_on ).all()
+#             if posts:
+#                 for post in posts:
+#                     pass
+#             else:
+#                 SiteOfTheDay.objects.create(post)
+#     @receiver(post_save, sender=Post)
+#     def save_sotd(sender,intance,**kwargs):
+#         instance.sotd.save()
