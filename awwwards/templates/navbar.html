@@ -49,11 +49,15 @@
     {% endif %}
     <div class="col-md-2 site">
       <h6>
-        SUBMIT YOUR SITE
+        <a href="{% url 'uploads' %}" style="text-decoration:none;color:white">
+          SUBMIT YOUR SITE
+        </a>
       </h6>
     </div>
   </div>
 </div>
+{% if user.is_authenticated%}
+{% else %}
 <div class="login-signup">
   <div class="col-md-5 myForm signup-form">
     <form class="" action="{% url 'signup' %}" method="post">
@@ -84,6 +88,7 @@
     <div class="loader"></div>
   </div>
 </div>
+{% endif %}
 <script type="text/javascript" src="{% static 'js/navbar.js' %}">
 
 </script>
