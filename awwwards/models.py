@@ -4,6 +4,7 @@ from django.db.models.signals import post_save,pre_save
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from datetime import datetime
+from decimal import Decimal
 class Profession(md.Model):
     profession = md.CharField(max_length=100)
 
@@ -110,11 +111,11 @@ class Contributor(md.Model):
 class Rating(md.Model):
     post=md.ForeignKey(Post,on_delete=md.PROTECT,related_name="ratings")
     user=md.ForeignKey(User,on_delete=md.PROTECT,related_name="my_ratings")
-    design =md.IntegerField()
-    usability =md.IntegerField()
-    content =md.IntegerField()
-    creativity = md.IntegerField(null = True,blank=True)
-    avarage = md.IntegerField(null = True,blank=True)
+    design =md.DecimalField(max_digits=3, decimal_places=2 )
+    usability =md.DecimalField(max_digits=3, decimal_places=2 )
+    content =md.DecimalField(max_digits=3, decimal_places=2 )
+    creativity = md.DecimalField(max_digits=3, decimal_places=2, null = True,blank=True)
+    avarage = md.DecimalField(max_digits=3, decimal_places=2, null = True,blank=True)
 
     class Meta:
         ordering=['avarage']
@@ -125,16 +126,29 @@ class Rating(md.Model):
     def save_rates(self):
         self.save()
 
+    @property
+    def int(self):
+        for i in str(self.avarage):
+            return i
+
+    @property
+    def dec(self):
+        res=''
+        for l in str(self.avarage):
+            res+=l
+
+        return res[1:]
+
 @receiver(pre_save,sender=Rating)
 def perform_calculations(sender ,instance, **kwargs):
-    design = (instance.design/10)*9.8
+    design = Decimal(instance.design)*Decimal(0.98)
     instance.design = design
-    usability = (instance.usability/10)*9.8
+    usability =  Decimal(instance.usability)*Decimal(0.98)
     instance.usability = usability
-    content = (instance.content/10)*9.8
+    content = Decimal(instance.content/10)*Decimal(9.8)
     instance.content = content
     if instance.creativity:
-        creativity = (instance.creativity/10)*9.8
+        creativity = Decimal(instance.creativity/10)*Decimal(9.8)
         instance.creativity = creativity
         avarage = (design+usability+content+creativity)/4
         instance.avarage= avarage
@@ -167,14 +181,14 @@ class Like(md.Model):
 
 class Sotd(md.Model):
     post = md.ForeignKey(Post,on_delete=md.CASCADE, related_name='sotd')
-    date = md.DateField(auto_now_add=True)
+    t_date = md.DateField(auto_now_add=True)
 
 
     @receiver(post_save, sender=Rating)
     def add_sotd(sender,created,instance,**kwargs):
         if created:
             if instance.post.posted_on.strftime("%Y-%m-%d") == datetime.today().strftime("%Y-%m-%d") :
-                sotd = Sotd.objects.filter(date = instance.post.posted_on.strftime("%Y-%m-%d") ).first()
+                sotd = Sotd.objects.filter(t_date = instance.post.posted_on.strftime("%Y-%m-%d") ).first()
                 if sotd != None:
                     insta=[]
                     instance_all =instance.post.ratings.all()
@@ -218,4 +232,4 @@ class Sotd(md.Model):
                 pass
 
     def __str__(self):
-        return f'{self.post} SOTD {self.date}'
+        return f'{self.post} SOTD {self.t_date}'
