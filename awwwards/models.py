@@ -169,5 +169,53 @@ class Sotd(md.Model):
     post = md.ForeignKey(Post,on_delete=md.CASCADE, related_name='sotd')
     date = md.DateField(auto_now_add=True)
 
+
+    @receiver(post_save, sender=Rating)
+    def add_sotd(sender,created,instance,**kwargs):
+        if created:
+            if instance.post.posted_on.strftime("%Y-%m-%d") == datetime.today().strftime("%Y-%m-%d") :
+                sotd = Sotd.objects.filter(date = instance.post.posted_on.strftime("%Y-%m-%d") ).first()
+                if sotd != None:
+                    insta=[]
+                    instance_all =instance.post.ratings.all()
+                    for post in instance_all:
+                        insta.append(int(post.avarage))
+                    instance_len=len(insta)
+                    try:
+                        instance_avarage =sum(insta)/instance_len
+                    except:
+                        instance_avarage =0
+
+                    sotd_list=[]
+                    sotd_count =sotd.post.ratings.all()
+                    for post in sotd_count:
+                        sotd_list.append(int(post.avarage))
+                    sotd_len=len(sotd_list)
+                    try:
+                        sotd_avarage =sum(sotd_list)/sotd_len
+                    except ZeroDivisionError:
+                        sotd_avarage=0
+
+
+                    if sotd_avarage > instance_avarage:
+                        sotd.post = sotd.post
+
+                    elif sotd_avarage == instance_avarage:
+                        sotd.post = sotd.post
+
+                    else:
+                         sotd.post = instance.post
+
+                else:
+                    Sotd.objects.create(post=instance.post)
+
+    @receiver(post_save, sender=Rating)
+    def save_sotd(sender,instance,**kwargs):
+        if instance:
+            try:
+                instance.sotd.save()
+            except:
+                pass
+
     def __str__(self):
         return f'{self.post} SOTD {self.date}'
