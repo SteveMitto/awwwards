@@ -45,6 +45,8 @@ position: relative;
   padding: 0;
   width:100%;
   z-index:999999999999;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 16px rgba(0, 0, 0, .4);
 
 }
 .profile .items::after{
