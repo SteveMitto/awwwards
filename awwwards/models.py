@@ -1,9 +1,9 @@
 from django.db import models as md
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save,pre_save
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-
+from datetime import datetime
 class Profession(md.Model):
     profession = md.CharField(max_length=100)
 
@@ -113,8 +113,8 @@ class Rating(md.Model):
     design =md.IntegerField()
     usability =md.IntegerField()
     content =md.IntegerField()
-    creativity = md.IntegerField(blank = True)
-    avarage = md.IntegerField()
+    creativity = md.IntegerField(null = True,blank=True)
+    avarage = md.IntegerField(null = True,blank=True)
 
     class Meta:
         ordering=['avarage']
@@ -124,6 +124,23 @@ class Rating(md.Model):
 
     def save_rates(self):
         self.save()
+
+@receiver(pre_save,sender=Rating)
+def perform_calculations(sender ,instance, **kwargs):
+    design = (instance.design/10)*9.8
+    instance.design = design
+    usability = (instance.usability/10)*9.8
+    instance.usability = usability
+    content = (instance.content/10)*9.8
+    instance.content = content
+    if instance.creativity:
+        creativity = (instance.creativity/10)*9.8
+        instance.creativity = creativity
+        avarage = (design+usability+content+creativity)/4
+        instance.avarage= avarage
+    else:
+        avarage = (design+usability+content)/3
+        instance.avarage= avarage
 
 class Follow(md.Model):
     follower=md.ForeignKey(User,on_delete=md.CASCADE,related_name='following')
@@ -148,19 +165,9 @@ class Like(md.Model):
     def __str__(self):
         return f'{self.user} likes {self.post}'
 
-# class Sotd(md.Model):
-#     post = md.ForeignKey(Post,on_delete=md.CASCADE, related_name='sotd')
-#     date = md.DateTimeField(auto_now_add=True)
-#
-#     @receiver(post_save, sender=Like)
-#     def add_sotd(sender,created,instance,**kwargs):
-#         if created:
-#             posts = Post.objects.filter(posted_on__date = instance.posted_on ).all()
-#             if posts:
-#                 for post in posts:
-#                     pass
-#             else:
-#                 SiteOfTheDay.objects.create(post)
-#     @receiver(post_save, sender=Post)
-#     def save_sotd(sender,intance,**kwargs):
-#         instance.sotd.save()
+class Sotd(md.Model):
+    post = md.ForeignKey(Post,on_delete=md.CASCADE, related_name='sotd')
+    date = md.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.post} SOTD {self.date}'
