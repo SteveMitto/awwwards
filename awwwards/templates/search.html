@@ -60,7 +60,9 @@
       {% endif %}
       <br><br>
       <h6>{{user.username}}</h6><br>
-      <a href="{{user.profile.website}}">{{user.profile.website}}</a>
+      <small>
+      <a href="{{user.profile.link}}">{{user.profile.link|slice:"20"}}..</a>
+    </small>
     <div>
       <small>{{user.profile.country}}</small>
       <img src="{{user.profile.country.flags}}" width="20px" alt="">

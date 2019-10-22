@@ -37,8 +37,7 @@ class Profile(md.Model):
     bio = md.TextField(max_length = 300, blank=True)
     display_name = md.CharField(max_length = 100,blank=True)
     profession = md.ManyToManyField(Profession,blank=True)
-    created_on = md.DateField(auto_now_add = True,blank=True)
-
+    link =md.URLField(blank=True)
     class Meta:
         verbose_name='profile'
     @receiver(post_save, sender = User)
@@ -70,6 +69,7 @@ class Post(md.Model):
     tags = md.ManyToManyField(Tag)
     main_image =md.ImageField(upload_to='main_image/')
     posted_on=md.DateField(auto_now_add = True)
+    link=md.URLField(blank=True)
 
     class Meta:
         verbose_name='posts'
@@ -158,7 +158,7 @@ class Rating(md.Model):
             s_creativity={"value":0,"color":"0,200,0","name":"creativity"}
         sotd_res=[s_design,s_usability,s_content,s_creativity]
         return sotd_res
-        
+
 @receiver(pre_save,sender=Rating)
 def perform_calculations(sender ,instance, **kwargs):
     design = Decimal(instance.design)*Decimal(0.98)

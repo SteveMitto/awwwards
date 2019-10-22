@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+{% load bootstrap4 %}
+{% block content%}
+{{block.super}}
+<br><br><br><br><br>
+<div class="container-fluid">
+
+<div class="col-md-4 offset-md-4">
+
+  <form class="" action="{% url 'settings' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+  {% bootstrap_form form %}
+  <button type="submit">Update</button>
+  </form>
+</div>
+</div>
+
+{% endblock %}

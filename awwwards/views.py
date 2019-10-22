@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse,HttpResponseRedirect
 from .models import Country,Image,Profile,Post,Sotd,Rating
-from .forms import PostForm,ImageForm,RatingForm
+from .forms import PostForm,ImageForm,RatingForm,ProfileForm
 from django.forms import modelformset_factory
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -115,7 +115,7 @@ def site(request,id):
     'ratings_a':ratings_a
     }
     return render(request,'site.html',context)
-
+@login_required()
 def profile(request,username):
     view_user = User.objects.filter(username = username).first()
 
@@ -123,3 +123,25 @@ def profile(request,username):
     'view_user':view_user
     }
     return render(request,'profile.html',context)
+
+def settings(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form =ProfileForm(request.POST,request.FILES)
+            if form.is_valid():
+                profile=Profile.objects.get(pk=request.user.profile.pk)
+                profile.display_name=form.cleaned_data['display_name']
+                profile.bio=form.cleaned_data['bio']
+                profile.profile_pic=form.cleaned_data['profile_pic']
+                profile.link=form.cleaned_data['link']
+                profile.profession.set(form.cleaned_data['profession'])
+                profile.save()
+                return redirect('settings')
+        else:
+            form =ProfileForm(instance=request.user.profile)
+        context={
+        'form':form
+        }
+        return render(request,'settings.html',context)
+    else:
+        return redirect('/')

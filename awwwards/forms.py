@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post,Image,Rating
+from .models import Post,Image,Rating,Profile
 
 
 class PostForm(forms.ModelForm):
@@ -29,3 +29,9 @@ class RatingForm(forms.ModelForm):
     class Meta:
         model=Rating
         fields=('design','usability','content','creativity')
+
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model=Profile
+        fields=('profile_pic','country','profession','bio','display_name','link')
