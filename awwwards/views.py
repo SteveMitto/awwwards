@@ -11,13 +11,15 @@ from django.contrib.auth.models import User
 def index(request):
     form = UserCreationForm()
     today = datetime.today().strftime("%Y-%m-%d")
+    websites = Post.objects.all()
     sotd = Sotd.objects.filter(t_date = today).first()
     if sotd == None:
         sotd = Sotd.objects.first()
     print("******************",sotd)
     context={
     'form':form,
-    'sotd':sotd
+    'sotd':sotd,
+    'websites':websites
     }
     return render(request,'index.html',context)
 
