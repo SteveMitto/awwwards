@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post,Image
+from .models import Post,Image,Rating
 
 
 class PostForm(forms.ModelForm):
@@ -20,3 +20,12 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model=Image
         fields=('image',)
+
+class RatingForm(forms.ModelForm):
+    design =forms.DecimalField(max_digits=3, decimal_places=2)
+    usability =forms.DecimalField(max_digits=3, decimal_places=2)
+    content =forms.DecimalField(max_digits=3, decimal_places=2)
+    creativity =forms.DecimalField(max_digits=3, decimal_places=2)
+    class Meta:
+        model=Rating
+        fields=('design','usability','content','creativity')

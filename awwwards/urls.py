@@ -7,7 +7,8 @@ urlpatterns=[
     path('signup/',views.signup,name="signup"),
     path('accounts/',include('django.contrib.auth.urls')),
     path('upload/',views.uploads,name="uploads"),
-    path('search/',views.search,name='search')
+    path('search/',views.search,name='search'),
+    path('site/<id>',views.site,name='site')
 ]
 
 if settings.DEBUG:

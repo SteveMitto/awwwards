@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static%}
+{% load bootstrap4%}
+{% block content %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'css/site.css'%}">
+<br><br><<br><br><br>
+
+<div class="container site-top">
+  <div class="row">
+    <div class="col-md-6">
+      <p>Nominees / <strong>{{website.title}} review</strong> from <strong> {{website.user.profile.country.name}}</strong></p>
+    </div>
+    <div class="col-md-6 sec">
+      <a href="#">likes</a>
+      <a href="#">Collect</a>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container">
+  <div class="card">
+    <a href="{{website.link}}">
+      <img src="{{website.main_image.url}}" alt="{{website.title}}" class="card-img-top">
+    </a>
+    <div class="card-body">
+      <h3>{{website.title}}</h3>
+      <p>by <b style="color:rgb(73,197,182);">{{website.user.username|title}}</b>({{website.user.profile.country}})</p>
+      <small>{{we}}</small>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container">
+  <h6 class="text-center">Screen Shots</h6>
+  <br>
+  <div class="row">
+
+  {% for image in website.images.all%}
+  <div class="col-md-6">
+    <img src="{{image.image.url}}" width="100%" alt="">
+  </div>
+  {% endfor %}
+</div>
+</div>
+<br><br><br>
+<h3 class="text-center">Overal Rating</h3>
+<div class="container my-values">
+  {% for res in  ratings_a.final_results %}
+  {% if res.value %}
+  <div class="value-sys" style="color:rgb({{res.color}});">
+
+  <div class="values" style="color:rgb({{res.color}});border:solid 3px rgb({{res.color}});border-left:solid 3px rgb({{res.color}},.5);background:transparent">
+
+    <span class="int">{{ res.value|slice:"1" }}</span>
+    <span class="dec">{{ res.value|slice:"1:4"}}</span>
+</div>
+<small>{{ res.name }}</small>
+</div>
+{% endif %}
+  {% endfor %}
+</div>
+<br><br>
+<br>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <p>LAST USER VOTES</p>
+    </div>
+    <div class="card-body">
+      {% for rate in website.ratings.all %}
+      <div class="row all">
+
+      <div class="col-md-1">
+      {% if rate.user.profile.profile_pic == 'profile_pics/default.png'%}
+      <img src="https://assets.awwwards.com/assets/images/pages/user/avatar.svg" class="circle" alt="" width="50px">
+      {% else %}
+      <img src="{{rate.user.profile.profile_pic.url}}" alt="" width="40px">
+      {% endif %}
+    </div>
+    <div class="col-md-3 location">
+      <small> <b>{{rate.user.username}}</b> from <b>{{rate.user.profile.country}}</b></small><br>
+      <small>{{rate.user.profile.link}}</small>
+    </div>
+    <div class="col-md-7 results">
+      <div class="design">
+        <span>{{rate.design}}</span>
+      </div>
+      <div class="usability">
+        <span>{{rate.usability}}</span>
+      </div>
+      <div class="content">
+        <span>{{rate.content}}</span>
+      </div>
+      {% if rate.creativity !=  None %}
+      <div class="creativity">
+        <span>{{rate.creativity}}</span>
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-md-1 last">
+      <h4>{{rate.avarage}}</h4>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-md-12">
+    <h6 class="text-center">No rates added yet</h6>
+  </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<br><br><br>
+{% if rated %}
+{% else %}
+<div class="container">
+  <h5>Rate</h5>
+  <form action="{% url 'site' website.pk %}" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <input type="submit" class="btn btn-primary btn-sm btn-block ">
+  </form>
+</div>
+{% endif %}
+<br><br><br>
+
+{% endblock %}

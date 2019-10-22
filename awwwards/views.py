@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse,HttpResponseRedirect
-from .models import Country,Image,Profile,Post,Sotd
-from .forms import PostForm,ImageForm # Create your views here.
+from .models import Country,Image,Profile,Post,Sotd,Rating
+from .forms import PostForm,ImageForm,RatingForm
 from django.forms import modelformset_factory
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -82,3 +82,36 @@ def search(request):
         return render(request,'search.html',context)
     else:
         return HttpResponseRedirect('/')
+
+@login_required
+def site(request,id):
+    website = Post.objects.get(pk = id)
+    ratings_a =Rating.objects.filter(post=website).first()
+    if request.method == "POST":
+        form =RatingForm(request.POST)
+        if form.is_valid():
+            design =form.cleaned_data['design']
+            usability =form.cleaned_data['usability']
+            content =form.cleaned_data['content']
+            creativity =form.cleaned_data['creativity']
+            print('******************',design,'*',usability,'*',content,'*',creativity)
+            ratings = Rating(user = request.user,post = website,design=design,usability=usability,content=content,creativity=creativity)
+            ratings.save()
+            return redirect(site,id)
+    else:
+        form =RatingForm()
+
+    rate = Rating.objects.filter(user=request.user,post=website).first()
+    rated = None
+    if rate == None:
+        rated = False
+    else:
+        rated = True
+
+    context={
+    'website':website,
+    'form':form,
+    'rated':rated,
+    'ratings_a':ratings_a
+    }
+    return render(request,'site.html',context)

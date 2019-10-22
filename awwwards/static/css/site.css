@@ -1,0 +1,94 @@
+.site-top .sec{
+  display: flex;
+  justify-content: flex-end;
+}
+.results{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border: 0px solid lightgray;
+}
+.all{
+  margin-bottom:20px;
+  border: 0px solid lightgray;
+}
+.results .design,
+.results .usability,
+.results .content,
+.results .creativity{
+  margin-left:10px;
+  height:100%;
+  width:50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.results .design{
+  border:2px solid rgb(200,0,0);
+  color:rgb(200,0,0);
+  border-left:2px solid rgba(200,0,0,.5);
+}
+.results .usability{
+  border:2px solid rgb(255,255,0);
+  color:rgb(255,255,0);
+}
+.results .creativity{
+  border:2px solid rgb(0,200,0);
+  color:rgb(0,200,0);
+  border-left:2px solid rgba(0,200,0,.5);
+}
+.results .content{
+  border:2px solid rgb(73,197,182);
+  border-left:2px solid rgba(73,197,182,.5);
+  color:rgb(73,197,182);
+}
+.last{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.location{
+  display: flex;
+  align-items: center;
+}
+ .my-values {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ .my-values .value-sys {
+  margin-left: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+ .my-values .values {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ .my-values .values .int {
+  font-weight: bolder;
+  font-size: 35px
+}
+
+ .my-values .values .dec {
+  margin: 18px 0 0 0;
+  font-size: 15px
+}
+
+ .my-values small {
+  padding-top: 10px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase
+}

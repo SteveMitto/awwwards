@@ -138,7 +138,27 @@ class Rating(md.Model):
             res+=l
 
         return res[1:]
-
+    @property
+    def final_results(self):
+        design=[]
+        usability=[]
+        content=[]
+        creativity=[]
+        for rate in self.post.ratings.all():
+            design.append(rate.design)
+            usability.append(rate.usability)
+            content.append(rate.content)
+            creativity.append(rate.creativity)
+        s_design={"value":str(sum(design)/len(design)),"color":"200,0,0","name":"design"}
+        s_usability={"value":str(sum(usability)/len(usability)),"color":"0,200,200","name":"usability"}
+        s_content={"value":str(sum(content)/len(content)),"color":"0,0,200","name":"content"}
+        try:
+            s_creativity={"value":str(sum(creativity)/len(creativity)),"color":"0,200,0","name":"creativity"}
+        except:
+            s_creativity={"value":0,"color":"0,200,0","name":"creativity"}
+        sotd_res=[s_design,s_usability,s_content,s_creativity]
+        return sotd_res
+        
 @receiver(pre_save,sender=Rating)
 def perform_calculations(sender ,instance, **kwargs):
     design = Decimal(instance.design)*Decimal(0.98)
