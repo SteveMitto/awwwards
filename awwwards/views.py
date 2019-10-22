@@ -1,14 +1,24 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse,HttpResponseRedirect
-from .models import Country,Image,Profile,Post
+from .models import Country,Image,Profile,Post,Sotd
 from .forms import PostForm,ImageForm # Create your views here.
 from django.forms import modelformset_factory
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 def index(request):
     form = UserCreationForm()
-    return render(request,'index.html',{'form':form})
+    today = datetime.today().strftime("%Y-%m-%d")
+    sotd = Sotd.objects.filter(t_date = today).first()
+    if sotd == None:
+        sotd = Sotd.objects.first()
+    print("******************",sotd)
+    context={
+    'form':form,
+    'sotd':sotd
+    }
+    return render(request,'index.html',context)
 
 def signup(request):
     if request.method == "POST":
