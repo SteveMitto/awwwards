@@ -115,3 +115,11 @@ def site(request,id):
     'ratings_a':ratings_a
     }
     return render(request,'site.html',context)
+
+def profile(request,username):
+    view_user = User.objects.filter(username = username).first()
+
+    context={
+    'view_user':view_user
+    }
+    return render(request,'profile.html',context)

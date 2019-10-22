@@ -1,0 +1,62 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+{{block.super}}
+<br><br><br><br>
+<link rel="stylesheet" href="{% static 'css/profile.css'%}">
+<div class="container-fluid">
+  <div class="row mother">
+    <br><br>
+
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4 main-profile">
+      {% if view_user.profile.profile_pic == 'profile_pics/default.png'%}
+      <img src="https://assets.awwwards.com/assets/images/pages/user/avatar.svg" class="circle" alt="" width="100px">
+      {% else %}
+      <img src="{{view_user.profile.profile_pic.url}}" alt="" width="40px">
+      {% endif %}
+      <br>
+    <h5>{{view_user.username}}</h5>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
+<div class="container-fluid" id="websites">
+  <br><br>
+  <strong>{{view_user.posts.all.count}} Project</strong>
+  <strong>{{view_user.my_ratings.all.count}} Reviews</strong>
+  <br><br>
+
+  <div class="row">
+  {% for website in view_user.posts.all %}
+  <div class="card col-md-4">
+    <div class="image">
+      <img src="{{website.main_image.url}}" alt="" class="card-img-top">
+    </div>
+    <div class="card-body">
+      <h6> {{website.title}} </h6>
+      <br>
+      <small>From {{website.user.profile.country}}</small>
+      <img src="{{website.user.profile.country.flags}}" width="20px" alt="">
+      <small class="date_posted">{{website.posted_on | date:"F d Y"}}</small>
+    </div>
+    <div class="card-footer">
+      <div class="items">
+        {% if website.user.profile.profile_pic == 'profile_pics/default.png'%}
+        <img src="https://assets.awwwards.com/assets/images/pages/user/avatar.svg" class="circle" alt="" width="40px">
+        {% else %}
+        <img src="{{user.profile.profile_pic.url}}" alt="" width="40px">
+        {% endif %}
+        <small class="by">BY <strong>{{website.user}}</strong></small>
+      </div>
+      <small class="more">
+        <a href="{% url 'site' website.pk %}">see more</a>
+      </small>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+</div>
+<br><br>
+{% endblock %}

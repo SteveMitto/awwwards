@@ -45,7 +45,7 @@
       <img src="{{user.profile.profile_pic.url}}" alt="" width="40px">
       {% endif %}
       <ul class="items">
-        <li>Profile</li>
+        <li> <a style="color:black;text-decoration:none;"href="{% url 'profile' user.username %}">Profile</a></li>
         <li>Activity</li>
         <li>Collections</li>
         <li>Notifications</li>

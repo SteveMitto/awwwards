@@ -1,0 +1,52 @@
+.main-profile{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.mother{
+  border :0px solid lightgray;
+  border-bottom:.5px solid lightgray;
+}
+#websites .card,
+#users .card{
+  border:none;
+  background: transparent;
+}
+#websites .card-body,
+#users .card-body {
+  background: white
+}
+#websites .card-body h6,
+#users .card-body h6{
+  font-size: 15px;
+}
+#websites .card .image,
+#users .image{
+  max-height:230px;
+  overflow:hidden;
+}
+#websites .card-body small{
+  padding-top: 10px;
+}
+#websites .card-body .date_posted{
+  float: right;
+}
+#websites .card .card-footer{
+  background: rgba(255,255,255,.8  );
+  border:0px solid lightgray;
+  border-top:.5px solid lightgray;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#websites .card .card-footer .items .by{
+text-transform: uppercase;
+}
+#websites .card .card-footer .items img{
+  margin-right:10px
+}
+#websites .card .card-footer .more{
+  float:right;
+  text-decoration: none;
+}
