@@ -7,6 +7,7 @@ from django.forms import modelformset_factory
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from django.contrib.auth.models import User
 def index(request):
     form = UserCreationForm()
     today = datetime.today().strftime("%Y-%m-%d")
@@ -66,3 +67,18 @@ def uploads(request):
     'image_form':image_form,
     }
     return render(request,'uploads.html',context)
+
+@login_required
+def search(request):
+    if request.method == "GET":
+        search_term=request.GET.get('search_term')
+        users = User.objects.filter(username__icontains = search_term)
+        websites = Post.objects.filter(title__icontains= search_term ,description__icontains= search_term )
+
+        context={
+        'users':users,
+        'websites':websites
+        }
+        return render(request,'search.html',context)
+    else:
+        return HttpResponseRedirect('/')

@@ -1,0 +1,85 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'css/search.css'%}">
+<br><br><br>
+<h2>Search Results..........</h2>
+
+<p>
+  <small>Found <a href="#websites">{{websites.count}} websites </a>and <strong><a href="#users">{{users.count}} Users</a></strong></small>
+</p>
+
+<div class="container-fluid" id="websites">
+  <h5>Websites</h5>
+  <div class="row">
+    {% for website in websites %}
+    <div class="card col-md-4">
+      <div class="image">
+        <img src="{{website.main_image.url}}" alt="" class="card-img-top">
+      </div>
+      <div class="card-body">
+        <h6> {{website.title}} </h6>
+        <br>
+        <small>From {{website.user.profile.country}}</small>
+        <img src="{{website.user.profile.country.flags}}" width="20px" alt="">
+        <small class="date_posted">{{website.posted_on | date:"F d Y"}}</small>
+      </div>
+      <div class="card-footer">
+        <div class="items">
+          {% if website.user.profile.profile_pic == 'profile_pics/default.png'%}
+          <img src="https://assets.awwwards.com/assets/images/pages/user/avatar.svg" class="circle" alt="" width="40px">
+          {% else %}
+          <img src="{{user.profile.profile_pic.url}}" alt="" width="40px">
+          {% endif %}
+          <small class="by">BY <strong>{{website.user}}</strong></small>
+        </div>
+        <small class="more">
+          <a href="#">see more</a>
+        </small>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+<br><br><br>
+<div class="container-fluid" id="users">
+  <h5>Users</h5>
+  <div class="row">
+  {% for user in users%}
+  <div class="card col-md-4">
+    <div class="image">
+      <img src="https://assets.awwwards.com/assets/images/pages/user/avatar.svg" class="card-img-top" alt="">
+    </div>
+    <div class="card-body">
+      {% if user.profile.profile_pic == 'profile_pics/default.png'%}
+      <img src="https://assets.awwwards.com/assets/images/pages/user/avatar.svg" class="circle user-img" alt="" width="70px">
+      {% else %}
+      <img src="{{user.profile.profile_pic.url}}" class="circle" alt="" width="70px">
+      {% endif %}
+      <br><br>
+      <h6>{{user.username}}</h6><br>
+      <a href="{{user.profile.website}}">{{user.profile.website}}</a>
+    <div>
+      <small>{{user.profile.country}}</small>
+      <img src="{{user.profile.country.flags}}" width="20px" alt="">
+    </div>
+
+    </div>
+    <a href="#" class="btn btn-sm btn-block">View Profile</a>
+    </div>
+    {% empty %}
+    <p>No User was found</p>
+    {% endfor %}
+  </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}
