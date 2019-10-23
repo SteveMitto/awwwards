@@ -10,3 +10,10 @@ def profiles_api(request):
     serializer= UserSerializer(profiles,many =True)
 
     return JsonResponse(serializer.data,safe=False)
+
+@api_view(['GET'])
+def posts_api(request):
+    query = Post.objects.all()
+    serializer=PostMainSerializer(query,many=True)
+
+    return JsonResponse(serializer.data,safe=False)
