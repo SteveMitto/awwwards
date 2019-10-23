@@ -137,6 +137,7 @@ def settings(request):
                 profile.profile_pic=form.cleaned_data['profile_pic']
                 profile.link=form.cleaned_data['link']
                 profile.profession.set(form.cleaned_data['profession'])
+                profile.country=form.cleaned_data['country']
                 profile.save()
                 return redirect('settings')
         else:
