@@ -14,7 +14,7 @@ def index(request):
     websites = Post.objects.all()
     sotd = Sotd.objects.filter(t_date = today).first()
     if sotd == None:
-        sotd = Sotd.objects.first()
+        sotd = Sotd.objects.last()
     print("******************",sotd)
     context={
     'form':form,
