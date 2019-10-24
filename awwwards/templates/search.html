@@ -26,13 +26,13 @@
         <small class="date_posted">{{website.posted_on | date:"F d Y"}}</small>
       </div>
       <div class="card-footer">
-        <div class="items">
+        <div class="items2">
           {% if website.user.profile.profile_pic == 'profile_pics/default.png'%}
           <img src="https://assets.awwwards.com/assets/images/pages/user/avatar.svg" class="circle" alt="" width="40px">
           {% else %}
-          <img src="{{user.profile.profile_pic.url}}" alt="" width="40px">
+          <img src="{{website.user.profile.profile_pic.url}}" alt="" width="40px">
           {% endif %}
-          <small class="by">BY <strong>{{website.user}}</strong></small>
+          <small class="by">BY <strong>{{website.user|upper}}</strong></small>
         </div>
         <small class="more">
           <a href="{% url 'site' website.pk %}">see more</a>
@@ -47,29 +47,29 @@
 <div class="container-fluid" id="users">
   <h5>Users</h5>
   <div class="row">
-  {% for user in users%}
+  {% for person in users%}
   <div class="card col-md-4">
     <div class="image">
       <img src="https://assets.awwwards.com/assets/images/pages/user/avatar.svg" class="card-img-top" alt="">
     </div>
     <div class="card-body">
-      {% if user.profile.profile_pic == 'profile_pics/default.png'%}
+      {% if person.profile.profile_pic == 'profile_pics/default.png'%}
       <img src="https://assets.awwwards.com/assets/images/pages/user/avatar.svg" class="circle user-img" alt="" width="70px">
       {% else %}
-      <img src="{{user.profile.profile_pic.url}}" class="circle" alt="" width="70px">
+      <img src="{{person.profile.profile_pic.url}}" class="circle" alt="" width="70px">
       {% endif %}
       <br><br>
-      <h6>{{user.username}}</h6><br>
+      <h6>{{person.username}}</h6><br>
       <small>
-      <a href="{{user.profile.link}}">{{user.profile.link|slice:"20"}}..</a>
+      <a href="{{person.profile.link}}">{{person.profile.link|slice:"20"}}..</a>
     </small>
     <div>
-      <small>{{user.profile.country}}</small>
-      <img src="{{user.profile.country.flags}}" width="20px" alt="">
+      <small>{{person.profile.country}}</small>
+      <img src="{{person.profile.country.flags}}" width="20px" alt="">
     </div>
 
     </div>
-    <a href="#" class="btn btn-sm btn-block">View Profile</a>
+    <a href="{% url 'profile' person.username %}" class="btn btn-sm btn-block">View Profile</a>
     </div>
     {% empty %}
     <p>No User was found</p>
