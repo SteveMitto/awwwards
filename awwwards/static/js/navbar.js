@@ -11,10 +11,13 @@ $(document).ready(function() {
       'visibility': 'visible'
     })
   })
-  $(".login-signup").click(function() {
-    $(this).parent().css({
-      'visibility': 'hidden'
-    })
+  // $(".login-signup").click(function() {
+  //   $(this).css({
+  //     'visibility': 'hidden'
+  //   })
+  // })
+  $(" .hide").click(function(){
+    $(this).parent().css({"visibility":"hidden"})
   })
   $(".profile img").mouseover(function() {
     $(".items").fadeIn()
@@ -88,4 +91,5 @@ $(".search").click(function(){
   $(this).hide()
   $(".search-input").show()
 })
+
 })

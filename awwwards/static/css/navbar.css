@@ -90,7 +90,8 @@ position: relative;
   display: none;
 }
 .login-signup{
-  position:absolute;
+  position:fixed;
+  z-index: 999999999;
   top:0;
   left:0;
   width: 100vw;
@@ -102,6 +103,10 @@ position: relative;
   visibility:hidden;
 }
 .myForm{
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: white;
   min-height: 79%;
 }
@@ -205,3 +210,39 @@ position: relative;
   bottom:10px;
 
 }
+.hide1{
+  /* position: absolute; */
+  /* bottom: 0; */
+  /* right:0; */
+  margin: -20px;
+  color:rgb(200,0,0);
+  text-align: center;
+  font-weight: bolder;
+  border:1px solid rgb(200,0,0);
+  padding: 10px 20px;
+  border-radius: 5px;
+  width: 50%;
+  letter-spacing: 1px;
+}
+.hide1:hover{
+  color:white;
+  background: rgb(200,0,0);
+}
+.hide2{
+  position: absolute;
+  /* bottom: 0; */
+  /* right:50%; */
+  left:150px;
+  margin: -20px;
+  color:rgb(200,0,0);
+  text-align: center;
+  font-weight: bolder;
+  border:1px solid rgb(200,0,0);
+  padding: 10px 20px;
+  border-radius: 5px;
+  width: 50%;
+  letter-spacing: 1px;
+}
+.hide2:hover{
+  color:white;
+  background: rgb(200,0,0);
